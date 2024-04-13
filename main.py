@@ -43,8 +43,12 @@ with st.container():
         st.image(ts.vertical_lines(mask_with_vertical_lines))
 
 
-cropped_mask_with_vertical_lines = ts.crop_image_with_biggest_contour(mask_with_vertical_lines.copy())
-cropped_mask_with_horizontal_lines = ts.crop_image_with_biggest_contour(mask_with_horizontal_lines.copy())
+cropped_mask_with_vertical_lines = ts.crop_image_with_biggest_contour(
+    mask_with_vertical_lines.copy()
+)
+cropped_mask_with_horizontal_lines = ts.crop_image_with_biggest_contour(
+    mask_with_horizontal_lines.copy()
+)
 
 #  =======================Overlay==========================
 cropped_table_mask_with_horizontal_lines = ts.pic.empty_mask(cropped_table_image)
@@ -54,9 +58,7 @@ with st.container():
         horizontal_lines_col, vertical_lines_col = st.columns(2)
 
         horizontal_lines_col.markdown(
-            utils.make_overlay(
-                cropped_table_image, cropped_mask_with_horizontal_lines
-            ),
+            utils.make_overlay(cropped_table_image, cropped_mask_with_horizontal_lines),
             unsafe_allow_html=True,
         )
         vertical_lines_col.markdown(
