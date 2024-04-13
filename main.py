@@ -4,27 +4,27 @@ from table_segmentation import TableSegmentation
 import utils
 
 ts = TableSegmentation()
-image = ts.img
+table_image = ts.img
 gray = ts.gray.copy()
-cropped_table_image = ts.find_and_crop_biggest_region(gray)
+cropped_table_image = ts.find_and_crop_biggest_region(ts.binary)
 
 # beginning
 
-col1, col2 = st.columns(2)
+original_col, cropped_col = st.columns(2)
 
-with col1:
+with original_col:
     st.header("Original Image")
     st.text("Original")
-    st.image(image)
+    st.image(table_image)
 
-with col2:
+with cropped_col:
     st.header("Grayscale Image")
     st.text("cropped biggest region")
     st.image(cropped_table_image)
 
-
+#  =========================Segmentation result========================
 overlay_image = cropped_table_image
-overlay_mask = ts.pic.empty_mask(image)
+overlay_mask = ts.pic.empty_mask(table_image)
 
 st.header("Segmentation result")
 
@@ -42,6 +42,10 @@ with st.container():
         st.image(ts.vertical_lines(mask_with_vertical_lines))
 
 
+cropped_mask_with_vertical_lines = ts.crop_image_with_biggest_contour(mask_with_vertical_lines.copy())
+cropped_mask_with_horizontal_lines = ts.crop_image_with_biggest_contour(mask_with_horizontal_lines.copy())
+
+#  =======================Overlay==========================
 cropped_table_mask_with_horizontal_lines = ts.pic.empty_mask(cropped_table_image)
 with st.container():
     st.header("Overlay")
@@ -50,20 +54,22 @@ with st.container():
 
         horizontal_lines_col.markdown(
             utils.make_overlay(
-                cropped_table_image, cropped_table_mask_with_horizontal_lines
+                cropped_table_image, cropped_mask_with_horizontal_lines
             ),
             unsafe_allow_html=True,
         )
         vertical_lines_col.markdown(
-            utils.make_overlay(cropped_table_image, mask_with_vertical_lines),
+            utils.make_overlay(cropped_table_image, cropped_mask_with_vertical_lines),
             unsafe_allow_html=True,
         )
 
-st.header("Segmentation")
+
+#  =======================Todo==========================
+st.header("TODO")
 
 for i in ts.horizontal_segments():
     st.image(i)
 
-# st.header("edgeMap")
-# edgeMap = imutils.auto_canny(gray)
-# st.image(edgeMap)
+st.header("edgeMap")
+edgeMap = imutils.auto_canny(gray)
+st.image(edgeMap)

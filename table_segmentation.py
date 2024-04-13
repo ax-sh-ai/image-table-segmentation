@@ -34,6 +34,18 @@ def crop_image(contour, image):
     return image[y : y + h, x : x + w]
 
 
+def find_biggest_contour(binary_image):
+    cnts = cv2.findContours(
+        binary_image,
+        cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_NONE,
+        # cv2.CHAIN_APPROX_SIMPLE
+    )
+    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+    contour = max(cnts, key=cv2.contourArea)
+    return contour
+
+
 class TableSegmentation:
     def __init__(self):
         self.img = cv2.imread("table.png")
@@ -41,6 +53,10 @@ class TableSegmentation:
         self.gray = self.pic.gray
         self.binary = self.pic.binary
         self.thresh = thresholding(self.gray)
+        self.biggest_contour = find_biggest_contour(self.binary)
+
+    def crop_image_with_biggest_contour(self, image):
+        return crop_image(self.biggest_contour, image)
 
     def horizontal_lines(self, mask):
         detected_horizontal_contours = find_morphological_contours(
@@ -62,22 +78,11 @@ class TableSegmentation:
             cv2.drawContours(mask, [c], -1, color, 2)
         return mask
 
-    def find_biggest_contour(self):
-        cnts = cv2.findContours(
-            self.binary,
-            cv2.RETR_EXTERNAL,
-            cv2.CHAIN_APPROX_NONE,
-            # cv2.CHAIN_APPROX_SIMPLE
-        )
-        cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-        contour = max(cnts, key=cv2.contourArea)
-        return contour
-
     def find_and_crop_biggest_region(self, image=None) -> Mat:
         if image is None:
             image = self.binary
-        contour = self.find_biggest_contour()
-        return crop_image(contour, image)
+
+        return crop_image(self.biggest_contour, image)
 
     def horizontal_segments(self):
         detected_horizontal_contours = find_morphological_contours(
