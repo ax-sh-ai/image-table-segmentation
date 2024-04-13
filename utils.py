@@ -7,7 +7,7 @@ def make_image(src: Mat):
     return f'<img src="{url}">'
 
 
-style = '''<style>
+style = """<style>
     .overlay-container img, .overlay-container div, .overlay-container section{
         margin:0px !important;
         padding:0px !important;
@@ -27,7 +27,7 @@ style = '''<style>
         inset:0px;
         opacity:.7;
     }
-</style>'''
+</style>"""
 
 
 def make_overlay(underlay: Mat, overlay: Mat):

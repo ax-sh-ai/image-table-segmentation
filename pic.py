@@ -7,15 +7,15 @@ from PIL import Image
 from collections import namedtuple
 import numpy as np
 
-Thumb = namedtuple('Thumb', ['label', 'mat'])
+Thumb = namedtuple("Thumb", ["label", "mat"])
 
 
 # Define a subclass of ndarray
 class JupyterMat(np.ndarray):
     @staticmethod
     def data_url(mat: np.ndarray):
-        retval, buffer = cv2.imencode('.jpg', mat)
-        return f'data:image/png;base64,{base64.b64encode(buffer).decode()}'
+        retval, buffer = cv2.imencode(".jpg", mat)
+        return f"data:image/png;base64,{base64.b64encode(buffer).decode()}"
 
     # uses nparray.view(JupyterMat)
     # uses mat.view(JupyterMat)
@@ -32,8 +32,8 @@ class MatArray(np.ndarray):
 
     @staticmethod
     def data_url(mat: np.ndarray):
-        retval, buffer = cv2.imencode('.jpg', mat)
-        return f'data:image/png;base64,{base64.b64encode(buffer).decode()}'
+        retval, buffer = cv2.imencode(".jpg", mat)
+        return f"data:image/png;base64,{base64.b64encode(buffer).decode()}"
 
     def __array_finalize__(self, obj):
         if obj is None:
@@ -111,24 +111,27 @@ class Pic:
     def __repr__(self):
         height, width = self.image.shape[:2]
         # , channels)
-        return f'<Pic(height={height}, width={width})>'
+        return f"<Pic(height={height}, width={width})>"
 
     def _repr_html_(self):
-
         urls = [(thumb.label, self.data_url(thumb.mat)) for thumb in self.mats]
-        images = [f'<div><h6>{label}</h6><img src="{url}"/></div>' for label, url in urls]
+        images = [
+            f'<div><h6>{label}</h6><img src="{url}"/></div>' for label, url in urls
+        ]
         images = "\n".join(images)
-        return (f'<section>'
-                '<h6>Pic Images</h6>'
-                f'<div style="display:flex;gap:2rem;flex-wrap:wrap">'
-                f"{images}"
-                f'</div>'
-                f'</section>')
+        return (
+            f"<section>"
+            "<h6>Pic Images</h6>"
+            f'<div style="display:flex;gap:2rem;flex-wrap:wrap">'
+            f"{images}"
+            f"</div>"
+            f"</section>"
+        )
 
     @staticmethod
     def data_url(mat: Mat):
-        retval, buffer = cv2.imencode('.jpg', mat)
-        return f'data:image/png;base64,{base64.b64encode(buffer).decode()}'
+        retval, buffer = cv2.imencode(".jpg", mat)
+        return f"data:image/png;base64,{base64.b64encode(buffer).decode()}"
 
     @staticmethod
     def show(image: Mat):
