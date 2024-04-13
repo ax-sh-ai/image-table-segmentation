@@ -2,15 +2,15 @@ import imutils
 import streamlit as st
 from table_segmentation import TableSegmentation
 import utils
-import numpy as np
 
 ts = TableSegmentation()
 image = ts.img
 gray = ts.gray.copy()
+table = ts.find_and_crop_biggest_region(gray)
 
 # beginning
-table = ts.find_and_crop_biggest_region(gray)
-thresh = ts.thresholding(table)
+
+# thresh = thresholding(table)
 
 col1, col2 = st.columns(2)
 

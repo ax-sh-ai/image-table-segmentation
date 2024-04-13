@@ -70,8 +70,13 @@ class Pic:
     def gray(self):
         return MatArray(cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY))
 
+    @property
     def invert(self):
         return np.invert(self.gray)
+
+    @property
+    def binary(self):
+        return cv2.bitwise_not(self.gray)
 
     def resize(self, width=None, height=None, inter=cv2.INTER_AREA):
         # initialize the dimensions of the image to be resized and
