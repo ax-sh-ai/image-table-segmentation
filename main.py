@@ -1,3 +1,4 @@
+import imutils
 import streamlit as st
 from table_segmentation import TableSegmentation
 import utils
@@ -42,4 +43,13 @@ with st.container():
         horizontal_lines_col, vertical_lines_col = st.columns(2)
         horizontal_lines_col.markdown(utils.make_overlay(image, mask_with_horizontal_lines), unsafe_allow_html=True)
         vertical_lines_col.markdown(utils.make_overlay(image, mask_with_vertical_lines), unsafe_allow_html=True)
-st.header("Overlay")
+
+
+st.header("Segmentation")
+
+for i in ts.horizontal_segments():
+    st.image(i)
+
+st.header("edgeMap")
+edgeMap = imutils.auto_canny(gray)
+st.image(edgeMap)
