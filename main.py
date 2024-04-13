@@ -20,22 +20,10 @@ with col2:
 
 thresh = ts.thresholding()
 
-horizontal_lines_col, vertical_lines_col = st.columns(2)
-st.write("""
-# Table Segmentation
-Threshold *Image!*
-""")
-
-st.write("""
-# Overlay
-Threshold *Image!*
-""")
-st.markdown(utils.make_overlay(image, thresh), unsafe_allow_html=True)
-st.write("""
-# Table Segmentation
-Threshold *Image!*
-""")
-with st.container():
+st.header("Segmentation result")
+with st.container() as container:
+    horizontal_lines_col, vertical_lines_col = st.columns(2)
+    st.write("This is inside the container")
     with horizontal_lines_col:
         st.header("horizontal_lines_col")
         horizontal_lines_col.image(ts.horizontal_lines())
@@ -43,3 +31,9 @@ with st.container():
     with vertical_lines_col:
         st.header("vertical_lines_col")
         st.image(ts.vertical_lines())
+
+st.write("""
+# Overlay
+Threshold *Image!*
+""")
+st.markdown(utils.make_overlay(image, thresh), unsafe_allow_html=True)
