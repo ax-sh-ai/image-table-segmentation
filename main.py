@@ -9,6 +9,7 @@ gray = ts.gray.copy()
 cropped_table_image = ts.find_and_crop_biggest_region(ts.binary)
 
 # beginning
+st.set_page_config(layout="wide")
 
 original_col, cropped_col = st.columns(2)
 

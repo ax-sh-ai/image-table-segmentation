@@ -25,7 +25,11 @@ style = """<style>
     .overlay{
         position:absolute;
         inset:0px;
-        opacity:.7;
+        filter:opacity(0.8);
+        
+    }
+    .underlay{
+        fil ter: contrast(7.5);
     }
 </style>"""
 
