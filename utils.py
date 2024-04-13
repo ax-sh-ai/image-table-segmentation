@@ -1,19 +1,5 @@
 from cv2 import Mat
-
 from pic import Pic
-
-style = '''<style>.overlay-container {
-         position: relative;
-         width: 30px;
-         height: 30px;
-         background-color: red;
-      }
-    .overlay{
-        position: absolute;
-        inset:0px;
-        opacity: 1;
-    }
-</style>'''
 
 
 def make_image(src: Mat):
@@ -22,7 +8,7 @@ def make_image(src: Mat):
 
 
 style = '''<style>
-    img, div, section{
+    .overlay-container img, .overlay-container div, .overlay-container section{
         margin:0px !important;
         padding:0px !important;
     }

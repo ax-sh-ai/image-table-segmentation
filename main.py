@@ -36,8 +36,10 @@ with st.container():
         st.image(ts.vertical_lines(mask_with_vertical_lines))
 
 
-st.header("Overlay")
 with st.container():
-    horizontal_lines_col, vertical_lines_col = st.columns(2)
-    horizontal_lines_col.markdown(utils.make_overlay(image, mask_with_horizontal_lines), unsafe_allow_html=True)
-    vertical_lines_col.markdown(utils.make_overlay(image, mask_with_vertical_lines), unsafe_allow_html=True)
+    st.header("Overlay")
+    with st.container():
+        horizontal_lines_col, vertical_lines_col = st.columns(2)
+        horizontal_lines_col.markdown(utils.make_overlay(image, mask_with_horizontal_lines), unsafe_allow_html=True)
+        vertical_lines_col.markdown(utils.make_overlay(image, mask_with_vertical_lines), unsafe_allow_html=True)
+st.header("Overlay")
