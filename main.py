@@ -35,13 +35,8 @@ with st.container():
         st.header("vertical_lines_col")
         st.image(ts.vertical_lines(mask_with_vertical_lines))
 
-# st.write(mask)
 
-# st.image(, use_column_width=True)
-st.write("""
-# Overlay
-Threshold *Image!*
-""")
+st.header("Overlay")
 with st.container():
     horizontal_lines_col, vertical_lines_col = st.columns(2)
     horizontal_lines_col.markdown(utils.make_overlay(image, mask_with_horizontal_lines), unsafe_allow_html=True)
