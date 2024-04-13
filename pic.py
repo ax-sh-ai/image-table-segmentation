@@ -64,7 +64,7 @@ class Pic:
         self.rgb = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
 
     def mask(self):
-        return MatArray(np.zeros(self.gray, np.uint8))
+        return MatArray(np.zeros(self.gray, int))
 
     @property
     def gray(self):

@@ -16,8 +16,11 @@ class TableSegmentation:
         _, thresh = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
         return thresh
 
-    def horizontal_lines(self):
-        result = self.img.copy()
+    def empty_mask(self):
+        return np.zeros(self.img.shape, dtype=np.uint8)
+        # return cv2.cvtColor(np.zeros(self.gray.shape), cv2.COLOR_GRAY2BGR)
+
+    def horizontal_lines(self, mask):
         thresh = self.thresholding()
         # Detect horizontal lines
         horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
@@ -25,12 +28,12 @@ class TableSegmentation:
         cnts = cv2.findContours(detect_horizontal, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cnts = cnts[0] if len(cnts) == 2 else cnts[1]
         color = (36, 255, 12)
+        print(cnts)
         for c in cnts:
-            cv2.drawContours(result, [c], -1, color, 2)
-        return result
+            cv2.drawContours(mask, [c.astype(int)], -1, color, 2)
+        return mask
 
-    def vertical_lines(self):
-        result = self.img.copy()
+    def vertical_lines(self, mask):
         thresh = self.thresholding()
         # Detect vertical lines
         vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1,10))
@@ -38,5 +41,5 @@ class TableSegmentation:
         cnts = cv2.findContours(detect_vertical, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cnts = cnts[0] if len(cnts) == 2 else cnts[1]
         for c in cnts:
-            cv2.drawContours(result, [c], -1, (36,255,12), 2)
-        return result
+            cv2.drawContours(mask, [c], -1, (36,255,12), 2)
+        return mask

@@ -1,7 +1,7 @@
 import streamlit as st
 from table_segmentation import TableSegmentation
 import utils
-
+import numpy as np
 ts = TableSegmentation()
 image = ts.img
 gray = ts.gray.copy()
@@ -20,20 +20,29 @@ with col2:
 
 thresh = ts.thresholding()
 
+
+mask = ts.empty_mask()
 st.header("Segmentation result")
-with st.container() as container:
+with st.container():
     horizontal_lines_col, vertical_lines_col = st.columns(2)
-    st.write("This is inside the container")
+    mask_with_horizontal_lines = mask.copy()
+    mask_with_vertical_lines = mask.copy()
     with horizontal_lines_col:
         st.header("horizontal_lines_col")
-        horizontal_lines_col.image(ts.horizontal_lines())
+        horizontal_lines_col.image(ts.horizontal_lines(mask_with_horizontal_lines))
 
     with vertical_lines_col:
         st.header("vertical_lines_col")
-        st.image(ts.vertical_lines())
+        st.image(ts.vertical_lines(mask_with_vertical_lines))
 
+# st.write(mask)
+
+# st.image(, use_column_width=True)
 st.write("""
 # Overlay
 Threshold *Image!*
 """)
-st.markdown(utils.make_overlay(image, thresh), unsafe_allow_html=True)
+with st.container():
+    horizontal_lines_col, vertical_lines_col = st.columns(2)
+    horizontal_lines_col.markdown(utils.make_overlay(image, mask_with_horizontal_lines), unsafe_allow_html=True)
+    vertical_lines_col.markdown(utils.make_overlay(image, mask_with_vertical_lines), unsafe_allow_html=True)

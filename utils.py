@@ -39,7 +39,7 @@ style = '''<style>
     .overlay{
         position:absolute;
         inset:0px;
-        opacity:.8;
+        opacity:.7;
     }
 </style>'''
 
