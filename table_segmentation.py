@@ -42,10 +42,6 @@ class TableSegmentation:
         self.binary = self.pic.binary
         self.thresh = thresholding(self.gray)
 
-    def empty_mask(self):
-        return np.zeros(self.img.shape, dtype=np.uint8)
-        # return cv2.cvtColor(np.zeros(self.gray.shape), cv2.COLOR_GRAY2BGR)
-
     def horizontal_lines(self, mask):
         detected_horizontal_contours = find_morphological_contours(
             self.thresh, "horizontal"

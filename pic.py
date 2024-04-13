@@ -62,9 +62,12 @@ class Pic:
         # self.add_to_mat(self.gray)
         self.thumb_size = 300
         self.rgb = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+        # cv2.cvtColor(np.zeros(self.gray.shape), cv2.COLOR_GRAY2BGR)
 
-    def mask(self):
-        return MatArray(np.zeros(self.gray, int))
+    def empty_mask(self, image: Mat):
+        if image is None:
+            image = self.rgb
+        return MatArray(np.zeros(image.shape, dtype=int))
 
     @property
     def gray(self):
