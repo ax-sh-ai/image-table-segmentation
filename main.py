@@ -5,7 +5,9 @@ import utils
 import cv2
 
 st.set_page_config(layout="wide")
-img_file_buffer = st.file_uploader('Upload a PNG image', type=['png', 'jpg', 'jpeg', 'webp'])
+img_file_buffer = st.file_uploader(
+    "Upload a PNG image", type=["png", "jpg", "jpeg", "webp"]
+)
 if img_file_buffer is None:
     image = cv2.imread("table.png")
 else:
@@ -77,14 +79,15 @@ edgeMap = imutils.auto_canny(gray)
 st.image(edgeMap)
 
 
-def create_pairs(arr):
-    return list(zip(arr[:-1], arr[1:]))
+image = ts.img.copy()
+row_segments = ts.segment_rows()
 
+for index, item in enumerate(row_segments):
+    y1, y2, x1, x2 = item
 
-l = [i.flatten() for i in ts.get_horizontal_contours()]
-
-for a, b in create_pairs(l):
-    st.write([a, b])
+    cropped_segment = image[y1:y2, x1:x2]
+    st.write(index)
+    st.image(cropped_segment)
 
 #  =======================Todo==========================
 st.header("TODO")

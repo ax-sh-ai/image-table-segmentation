@@ -7,6 +7,10 @@ from cv2 import Mat
 from pic import Pic
 
 
+def create_pairs(arr):
+    return list(zip(arr[:-1], arr[1:]))
+
+
 def find_morphological_contours(thresh, kernel="horizontal"):
     horizontal_kernel = cv2.getStructuringElement(
         cv2.MORPH_RECT, (40, 1)
@@ -95,10 +99,17 @@ class TableSegmentation:
         )
         return detected_horizontal_contours
 
+    def segment_rows(self):
+        sections = []
+        for a, b in create_pairs(self.get_horizontal_contours()):
+            x1, y1, x2, _ = a.flatten()
+            _, _, _, y2 = b.flatten()
+
+            sections.insert(0, [y2, y1, x1, x2])
+        return sections
+
     def horizontal_segments(self):
-        detected_horizontal_contours = find_morphological_contours(
-            self.thresh, "horizontal"
-        )
+        detected_horizontal_contours = self.get_horizontal_contours()
         image = self.img.copy()
 
         segments = []
