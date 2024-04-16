@@ -26,7 +26,7 @@ with original_col:
     st.image(table_image)
 
 with cropped_col:
-    st.header("Grayscale Image")
+    st.header("Grayscale and Inverted Image")
     st.text("cropped biggest region")
     st.image(cropped_table_image)
 
@@ -72,12 +72,14 @@ with st.container():
             unsafe_allow_html=True,
         )
 
+st.header("edgeMap")
+edgeMap = imutils.auto_canny(gray)
+st.image(edgeMap)
+
+
 #  =======================Todo==========================
 st.header("TODO")
 
 for i in ts.horizontal_segments():
     st.image(i)
 
-st.header("edgeMap")
-edgeMap = imutils.auto_canny(gray)
-st.image(edgeMap)
