@@ -59,6 +59,7 @@ class TableSegmentation:
         self.thresh = thresholding(self.gray)
         self.biggest_contour = find_biggest_contour(self.binary)
         self.detection_color = (136, 201, 3)
+        self.detection_line_thickness = 1
 
     @classmethod
     def make_image_from_image_buffer(self, img_file_buffer):
@@ -75,7 +76,7 @@ class TableSegmentation:
         )
 
         for c in detected_horizontal_contours:
-            cv2.drawContours(mask, [c], -1, self.detection_color, 2)
+            cv2.drawContours(mask, [c], -1, self.detection_color, self.detection_line_thickness)
         return mask
 
     def vertical_lines(self, mask):
@@ -84,7 +85,7 @@ class TableSegmentation:
         )
 
         for c in detected_vertical_contours:
-            cv2.drawContours(mask, [c], -1, self.detection_color, 2)
+            cv2.drawContours(mask, [c], -1, self.detection_color, self.detection_line_thickness)
         return mask
 
     def find_and_crop_biggest_region(self, image=None) -> Mat:
