@@ -77,9 +77,17 @@ edgeMap = imutils.auto_canny(gray)
 st.image(edgeMap)
 
 
+def create_pairs(arr):
+    return list(zip(arr[:-1], arr[1:]))
+
+
+l = [i.flatten() for i in ts.get_horizontal_contours()]
+
+for a, b in create_pairs(l):
+    st.write([a, b])
+
 #  =======================Todo==========================
 st.header("TODO")
 
 for i in ts.horizontal_segments():
     st.image(i)
-
