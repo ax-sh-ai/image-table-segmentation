@@ -2,14 +2,21 @@ import imutils
 import streamlit as st
 from table_segmentation import TableSegmentation
 import utils
+import cv2
 
-ts = TableSegmentation()
+st.set_page_config(layout="wide")
+img_file_buffer = st.file_uploader('Upload a PNG image', type=['png', 'jpg', 'jpeg', 'webp'])
+if img_file_buffer is None:
+    image = cv2.imread("table.png")
+else:
+    image = TableSegmentation.make_image_from_image_buffer(img_file_buffer)
+
+ts = TableSegmentation(image)
 table_image = ts.img
 gray = ts.gray.copy()
 cropped_table_image = ts.find_and_crop_biggest_region(ts.binary)
 
 # beginning
-st.set_page_config(layout="wide")
 
 original_col, cropped_col = st.columns(2)
 
@@ -42,7 +49,6 @@ with st.container():
         st.text("Detected vertical lines")
         st.image(ts.vertical_lines(mask_with_vertical_lines))
 
-
 cropped_mask_with_vertical_lines = ts.crop_image_with_biggest_contour(
     mask_with_vertical_lines.copy()
 )
@@ -65,7 +71,6 @@ with st.container():
             utils.make_overlay(cropped_table_image, cropped_mask_with_vertical_lines),
             unsafe_allow_html=True,
         )
-
 
 #  =======================Todo==========================
 st.header("TODO")

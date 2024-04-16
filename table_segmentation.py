@@ -47,14 +47,20 @@ def find_biggest_contour(binary_image):
 
 
 class TableSegmentation:
-    def __init__(self):
-        self.img = cv2.imread("table.png")
+    def __init__(self, image: Mat):
+        self.img = image
         self.pic = Pic(self.img)
         self.gray = self.pic.gray
         self.binary = self.pic.binary
         self.thresh = thresholding(self.gray)
         self.biggest_contour = find_biggest_contour(self.binary)
         self.detection_color = (136, 201, 3)
+
+    @classmethod
+    def make_image_from_image_buffer(self, img_file_buffer):
+        image = Image.open(img_file_buffer)
+        img_array = np.array(image)
+        return img_array
 
     def crop_image_with_biggest_contour(self, image):
         return crop_image(self.biggest_contour, image)
