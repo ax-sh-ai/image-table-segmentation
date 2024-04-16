@@ -89,6 +89,12 @@ class TableSegmentation:
 
         return crop_image(self.biggest_contour, image)
 
+    def get_horizontal_contours(self):
+        detected_horizontal_contours = find_morphological_contours(
+            self.thresh, "horizontal"
+        )
+        return detected_horizontal_contours
+
     def horizontal_segments(self):
         detected_horizontal_contours = find_morphological_contours(
             self.thresh, "horizontal"
