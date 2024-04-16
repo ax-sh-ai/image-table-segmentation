@@ -101,9 +101,9 @@ class TableSegmentation:
 
     def segment_rows(self):
         sections = []
-        for a, b in create_pairs(self.get_horizontal_contours()):
-            x1, y1, x2, _ = a.flatten()
-            _, _, _, y2 = b.flatten()
+        for top, bottom in create_pairs(self.get_horizontal_contours()):
+            x1, y1, x2, _ = top.flatten()
+            _, _, _, y2 = bottom.flatten()
 
             sections.insert(0, [y2, y1, x1, x2])
         return sections
